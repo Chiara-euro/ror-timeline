@@ -1,25 +1,20 @@
-# ror-timeline# ror-timeline
+# Archivio RotRL
 
-Timeline per campagna di **Rise of the Runelords**.
+Mini-wiki statica per la campagna.
 
-## Struttura
+## File principali
 
-- `index.html` → pagina principale
-- `styles.css` → stile generale
-- `app.js` → caricamento eventi, filtri, render
-- `events.json` → archivio degli eventi
+- `index.html`: home generale
+- `nybor.html`: scheda Nybor
+- `sandpoint.html`: scheda Sandpoint
+- `magnimar.html`: scheda Magnimar
+- `todo.html`: missioni aperte
+- `indizi.html`: misteri e infezione
+- `rune.html`: Signori delle Rune
+- `thassilon.html`: placeholder/collegamento alla timeline esistente
+- `style.css`: stile globale
+- `app.js`: ricerca rapida nelle card
 
-## Come aggiornare gli eventi
+## Come usarlo
 
-Apri `events.json` e aggiungi un nuovo oggetto seguendo questo schema:
-
-```json
-{
-  "year": -5000,
-  "date": "-5000 AR",
-  "title": "Titolo evento",
-  "category": "empire",
-  "categoryLabel": "Impero",
-  "description": "Descrizione dell'evento",
-  "notes": "Nota opzionale"
-}
+Carica i file nel repository GitHub Pages. Se hai già un `index.html` per la timeline, rinominalo in `thassilon.html` e usa questo nuovo `index.html` come home.

@@ -1,176 +1,50 @@
-let allEvents = [];
+(function(){
+  function normalize(s){ return (s || "").toString().toLowerCase(); }
 
-const searchInput = document.getElementById("searchInput");
-const categoryFilter = document.getElementById("categoryFilter");
-const eventsList = document.getElementById("eventsList");
-const miniTimeline = document.getElementById("miniTimeline");
+  function setupSearch(){
+    const input = document.querySelector("[data-search]");
+    const cards = Array.from(document.querySelectorAll("[data-card]"));
+    const empty = document.querySelector("[data-empty]");
+    if(!input || !cards.length) return;
 
-async function loadEvents() {
-  try {
-    const response = await fetch("events.json");
-    if (!response.ok) {
-      throw new Error("Impossibile caricare events.json");
+    function apply(){
+      const q = normalize(input.value).trim();
+      let visible = 0;
+      cards.forEach(card => {
+        const haystack = normalize(card.innerText + " " + (card.dataset.tags || "") + " " + (card.dataset.type || ""));
+        const ok = !q || haystack.includes(q);
+        card.style.display = ok ? "" : "none";
+        if(ok) visible++;
+      });
+      if(empty) empty.style.display = visible ? "none" : "block";
     }
 
-    allEvents = await response.json();
-    allEvents = sortEvents(allEvents);
-
-    renderMiniTimeline(allEvents);
-    renderEvents(allEvents);
-    bindFilters();
-  } catch (error) {
-    console.error(error);
-    eventsList.innerHTML = `<div class="empty-state">Errore nel caricamento degli eventi.</div>`;
-    miniTimeline.innerHTML = `<div class="empty-state">Errore nel caricamento della timeline sintetica.</div>`;
-  }
-}
-
-function sortEvents(events) {
-  return [...events].sort((a, b) => {
-    const yearA = Number(a.year);
-    const yearB = Number(b.year);
-    return yearA - yearB;
-  });
-}
-
-function bindFilters() {
-  searchInput.addEventListener("input", applyFilters);
-  categoryFilter.addEventListener("change", applyFilters);
-}
-
-function applyFilters() {
-  const term = searchInput.value.trim().toLowerCase();
-  const category = categoryFilter.value;
-
-  const filtered = allEvents.filter((event) => {
-    const matchesCategory = category === "all" || event.category === category;
-
-    const haystack = [
-      event.date,
-      event.title,
-      event.description,
-      event.categoryLabel,
-      event.notes || ""
-    ]
-      .join(" ")
-      .toLowerCase();
-
-    const matchesSearch = !term || haystack.includes(term);
-
-    return matchesCategory && matchesSearch;
-  });
-
-  renderMiniTimeline(filtered);
-  renderEvents(filtered);
-}
-
-function renderMiniTimeline(events) {
-  if (!events.length) {
-    miniTimeline.innerHTML = `<div class="empty-state">Nessun evento trovato.</div>`;
-    return;
+    input.addEventListener("input", apply);
+    apply();
   }
 
-  const colWidth = 95;
-  miniTimeline.style.gridTemplateColumns = `repeat(${events.length}, minmax(${colWidth}px, 1fr))`;
-  miniTimeline.style.minWidth = `${events.length * colWidth + 80}px`;
+  function setupFilters(){
+    const buttons = Array.from(document.querySelectorAll("[data-filter]"));
+    const cards = Array.from(document.querySelectorAll("[data-card]"));
+    const empty = document.querySelector("[data-empty]");
+    if(!buttons.length || !cards.length) return;
 
-  miniTimeline.innerHTML = `
-    <div class="timeline-line"></div>
-    ${events
-      .map((event, index) => {
-        const side = index % 2 === 0 ? "top" : "bottom";
-
-        return `
-          <div class="timeline-item ${side}">
-            <div class="timeline-card">
-              <span class="mini-date">${escapeHtml(event.date)}</span>
-              <h3 class="mini-title">${escapeHtml(event.title)}</h3>
-              <div class="mini-category">${escapeHtml(event.categoryLabel)}</div>
-            </div>
-            <div class="timeline-stem"></div>
-            <div class="timeline-point"></div>
-          </div>
-        `;
-      })
-      .join("")}
-  `;
-}
-
-function renderEvents(events) {
-  if (!events.length) {
-    eventsList.innerHTML = `<div class="empty-state">Nessun evento corrisponde ai filtri selezionati.</div>`;
-    return;
+    buttons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        buttons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const filter = btn.dataset.filter;
+        let visible = 0;
+        cards.forEach(card => {
+          const ok = filter === "all" || card.dataset.type === filter;
+          card.style.display = ok ? "" : "none";
+          if(ok) visible++;
+        });
+        if(empty) empty.style.display = visible ? "none" : "block";
+      });
+    });
   }
 
-  eventsList.innerHTML = events
-    .map(
-      (event) => `
-        <article class="event-card">
-          <span class="event-date">${escapeHtml(event.date)}</span>
-          <div class="event-top">
-            <h3 class="event-title">${escapeHtml(event.title)}</h3>
-            <span class="event-category">${escapeHtml(event.categoryLabel)}</span>
-          </div>
-          <p class="event-description">${escapeHtml(event.description)}</p>
-          ${
-            event.notes
-              ? `<div class="event-notes">${escapeHtml(event.notes)}</div>`
-              : ""
-          }
-        </article>
-      `
-    )
-    .join("");
-}
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("'", "&#039;");
-}
-
-// ── MODAL TIMELINE VERTICALE (mobile) ──────────────────────────
-
-function renderVerticalTimeline(events) {
-  const vtlList = document.getElementById("vtlList");
-  if (!vtlList) return;
-
-  vtlList.innerHTML = events
-    .map(
-      (event) => `
-      <div class="vtl-item">
-        <div class="vtl-dot"></div>
-        <div class="vtl-card">
-          <span class="mini-date">${escapeHtml(event.date)}</span>
-          <h3 class="mini-title">${escapeHtml(event.title)}</h3>
-          <div class="mini-category">${escapeHtml(event.categoryLabel)}</div>
-        </div>
-      </div>
-    `
-    )
-    .join("");
-}
-
-function openVtlModal() {
-  renderVerticalTimeline(allEvents);
-  document.getElementById("vtlModal").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-
-function closeVtlModal() {
-  document.getElementById("vtlModal").classList.remove("open");
-  document.body.style.overflow = "";
-}
-
-document.getElementById("openVtlBtn").addEventListener("click", openVtlModal);
-document.getElementById("vtlClose").addEventListener("click", closeVtlModal);
-
-// chiudi con Escape
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") closeVtlModal();
-});
-
-loadEvents();
+  setupSearch();
+  setupFilters();
+})();

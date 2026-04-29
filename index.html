@@ -1,125 +1,121 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Thassilon Timeline</title>
-  <meta name="description" content="Timeline di Thassilon e degli eventi che conducono a Rise of the Runelords." />
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" href="assets/img/temp_icon.png" type="image/png">
-  <link rel="shortcut icon" href="assets/img/temp_icon.png">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Archivio di Campagna</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="site-header">
-  <div class="container header-grid">
-    <div class="header-copy">
-      <p class="eyebrow">Archivio storico</p>
-      <h1>Thassilon Timeline</h1>
-      <p class="intro">
-        Una cronologia consultabile degli eventi principali legati alla nascita, all’ascesa e alla caduta di Thassilon,
-        pensata come supporto per i player di <em>Rise of the Runelords</em>.
-      </p>
+<div class="site-shell">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="index.html"><span class="brand-mark">✦</span><span>Archivio RotRL</span></a>
+      <nav class="nav"><a class="active" href="index.html">Home</a>
+<a class="" href="nybor.html">Nybor</a>
+<a class="" href="sandpoint.html">Sandpoint</a>
+<a class="" href="magnimar.html">Magnimar</a>
+<a class="" href="indizi.html">Indizi</a>
+<a class="" href="todo.html">To-do</a>
+<a class="" href="rune.html">Rune</a>
+<a class="" href="thassilon.html">Thassilon</a></nav>
     </div>
+  </header>
 
-    <div class="header-art">
-      <img
-        src="https://i.imgur.com/ghakeUYg.jpg"
-        alt="Illustrazione evocativa di Thassilon"
-      />
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Rise of the Runelords</div>
+      <h1>Archivio di Campagna</h1>
+      <p>Una mini-wiki statica per organizzare città, indizi, PNG, missioni aperte e cronologia senza dover rovistare ogni volta tra Roll20, note e chat.</p>
     </div>
+    <div class="hero-symbol">✶</div>
+  </section>
+
+  <main class="main">
+    
+<div class="section-title">
+  <div>
+    <h2>Sezioni principali</h2>
+    <p>Una home operativa per cercare rapidamente luoghi, PNG, misteri, missioni aperte e appunti ricorrenti.</p>
   </div>
-</header>
+</div>
 
-  <main class="container">
-    <!-- ma sì dai della intro ce ne facciamo na sega
-     <section class="hero-panel">
-      <div class="hero-copy">
-        <h2>Dal sogno di Xin alla rovina dell’impero</h2>
-        <p>
-          Dalla fondazione da parte degli esuli di Azlant fino al Cataclisma del -5293 AR, questa pagina raccoglie gli eventi
-          fondamentali di Thassilon in una forma leggibile e consultabile.
-        </p>
-      </div>
-      <div class="hero-meta">
-        <div class="meta-card">
-          <span class="meta-label">Periodo coperto</span>
-          <strong>-9530 AR → -4293 AR</strong>
-        </div>
-        <div class="meta-card">
-          <span class="meta-label">Tema</span>
-          <strong>Origini, Runelord, Cataclisma</strong>
-        </div>
-      </div>
-    </section>-->
+<div class="tools">
+  <input class="search" data-search placeholder="Cerca tra le sezioni: Nybor, Zerren, Nualia, infezione, Karzoug...">
+</div>
 
-    <section class="section-block">
-      <div class="section-title-row">
-        <h2>Timeline sintetica</h2>
-        <p>Una vista rapida degli snodi principali.</p>
-      </div>
-
-      <div class="horizontal-timeline-wrapper">
-        <div id="miniTimeline" class="horizontal-timeline"></div>
-      </div>
-
-      <button class="timeline-mobile-btn" id="openVtlBtn">
-        Mostra timeline sinottica
-      </button>
-    </section>
-
-    <!-- MODAL: timeline verticale (solo mobile) -->
-    <div class="vtl-modal" id="vtlModal" aria-modal="true" role="dialog">
-      <div class="vtl-header">
-        <h2>Timeline sinottica</h2>
-        <button class="vtl-close" id="vtlClose" aria-label="Chiudi">✕</button>
-      </div>
-      <div class="vtl-body">
-        <div class="vtl-list" id="vtlList"></div>
-      </div>
+<div class="dashboard-grid">
+  <a class="dash-card priority" href="nybor.html" data-card data-tags="nybor zerren kaplan jackie fiume nero briganti">
+    <div>
+      <span class="badge ok">Priorità attuale</span>
+      <h3>Nybor</h3>
+      <p>Centro piccolo ma pieno di fili da tirare: briganti, Padre Kaplan, Caizarlu Zerren, Jackie e il Sussurro del Fiume Nero.</p>
     </div>
+    <div class="card-meta"><span class="badge">Città</span><span class="badge">Missioni</span><span class="badge">PNG</span></div>
+  </a>
 
-    <section class="section-block">
-      <div class="section-title-row">
-        <h2>Cronologia dettagliata</h2>
-        <p>Ricerca e filtra gli eventi principali dell’impero di Thassilon.</p>
-      </div>
+  <a class="dash-card" href="todo.html" data-card data-tags="missioni aperte downtime sandpoint tartaghetto forte rannik frallino">
+    <div>
+      <span class="badge danger">Da fare</span>
+      <h3>To-do di campagna</h3>
+      <p>Missioni aperte, piste attive, domande da porre e cose da non dimenticare.</p>
+    </div>
+    <div class="card-meta"><span class="badge">Operativo</span></div>
+  </a>
 
-      <div class="controls">
-        <div class="control">
-          <label for="searchInput">Cerca</label>
-          <input
-            id="searchInput"
-            type="text"
-            placeholder="Es. Xin, Lissala, Cataclisma, Runelord..."
-          />
-        </div>
+  <a class="dash-card" href="sandpoint.html" data-card data-tags="sandpoint pozzo nualia orik frallino shalelu collecardo">
+    <div>
+      <span class="badge">Hub</span>
+      <h3>Sandpoint</h3>
+      <p>Il pozzo, i cultisti rimasti, Nualia, Orik, i Frallino e le rovine vicine.</p>
+    </div>
+    <div class="card-meta"><span class="badge">Città</span><span class="badge">Trame</span></div>
+  </a>
 
-        <div class="control">
-          <label for="categoryFilter">Categoria</label>
-          <select id="categoryFilter">
-            <option value="all">Tutte</option>
-            <option value="origins">Origini</option>
-            <option value="empire">Impero</option>
-            <option value="runelords">Runelord</option>
-            <option value="fall">Caduta</option>
-            <option value="legacy">Eredità</option>
-          </select>
-        </div>
-      </div>
+  <a class="dash-card" href="magnimar.html" data-card data-tags="magnimar karzoug xanesha xin shalast xaliasa gigante pietra">
+    <div>
+      <span class="badge">Archivio</span>
+      <h3>Magnimar</h3>
+      <p>Karzoug, Xanesha, Xin-Shalast, Xaliasa e la frattura interna tra antichi servitori.</p>
+    </div>
+    <div class="card-meta"><span class="badge">Lore</span><span class="badge">PNG</span></div>
+  </a>
 
-      <div id="eventsList" class="events-list"></div>
-    </section>
+  <a class="dash-card" href="indizi.html" data-card data-tags="infezione jervis stoot tsuto sahuagin goblin occhi rossi">
+    <div>
+      <span class="badge danger">Misteri</span>
+      <h3>Indizi e infezione</h3>
+      <p>La malattia o maledizione magica: sintomi, casi noti e collegamenti sospetti.</p>
+    </div>
+    <div class="card-meta"><span class="badge">Mistero</span></div>
+  </a>
+
+  <a class="dash-card" href="rune.html" data-card data-tags="alaznist karzoug xanderghul krune zutha belimaria sorshen rune peccati">
+    <div>
+      <span class="badge">Rune</span>
+      <h3>Signori delle Rune</h3>
+      <p>Schema rapido dei Runelord e dei peccati associati.</p>
+    </div>
+    <div class="card-meta"><span class="badge">Thassilon</span></div>
+  </a>
+
+  <a class="dash-card" href="thassilon.html" data-card data-tags="thassilon timeline antica storia runelord xin">
+    <div>
+      <span class="badge">Storico</span>
+      <h3>Timeline Thassilon</h3>
+      <p>Collegamento alla timeline sintetica già esistente, da integrare con la tua pagina attuale.</p>
+    </div>
+    <div class="card-meta"><span class="badge">Timeline</span></div>
+  </a>
+</div>
+<div class="empty" data-empty>Nessuna sezione trovata.</div>
+
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>
-        Pagina fan-made per consultazione rapida della lore di Thassilon.
-        Puoi aggiornare il contenuto modificando il file <code>events.json</code>.
-      </p>
-    </div>
+  <footer class="footer">
+    Archivio di campagna consultabile al volo durante sessione. Aggiornabile da HTML statico, senza backend.
   </footer>
-
-  <script src="app.js"></script>
+</div>
+<script src="app.js"></script>
 </body>
 </html>
